@@ -26,8 +26,10 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Sequence Audience Starter - React</h1>
-      <h2 className="homepage__marginBtNormal">Be part of an exclusive list</h2>
+      <h1>Sequence Allowlist Starter</h1>
+      <h2 className="homepage__marginBtNormal">
+        Create an exclusive list with Audience Endpoints
+      </h2>
       <h2>
         Total Registrations: {audienceRegistrationStatus?.totalCount ?? 0}
       </h2>
