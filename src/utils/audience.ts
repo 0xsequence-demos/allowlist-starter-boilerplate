@@ -2,51 +2,48 @@ import {
   AudienceContact,
   AudienceRegistrationStatus,
   SequenceBuilderClient,
-  WalletProof,
+  WalletProof
 } from "@0xsequence/builder";
 
 const builderRpcClient = new SequenceBuilderClient(
-  String(import.meta.env.VITE_PROJECT_ACCESS_KEY),
-  "http://localhost:8080/https://api.sequence.build/",
+  String(import.meta.env.VITE_PROJECT_ACCESS_KEY)
 );
 
 export const registerAudienceContact = async (
   projectId: number,
   audienceId: number,
   contact: AudienceContact,
-  walletProof: WalletProof,
+  walletProof: WalletProof
 ): Promise<boolean> => {
-  const { ok } = await builderRpcClient.registerAudienceContact({
+  const {ok} = await builderRpcClient.registerAudienceContact({
     projectId,
     audienceId,
     contact,
-    walletProof,
+    walletProof
   });
   return ok;
 };
 
 export const getAudienceRegistrationPublicStatus = async (
   projectId: number,
-  audienceId: number,
+  audienceId: number
 ): Promise<AudienceRegistrationStatus> => {
-  const { status } = await builderRpcClient.getAudienceRegistrationPublicStatus(
-    {
-      projectId,
-      audienceId,
-    },
-  );
+  const {status} = await builderRpcClient.getAudienceRegistrationPublicStatus({
+    projectId,
+    audienceId
+  });
   return status;
 };
 
 export const isAudienceContactRegistered = async (
   projectId: number,
   audienceId: number,
-  walletAddress: string,
+  walletAddress: string
 ): Promise<boolean> => {
-  const { registered } = await builderRpcClient.isAudienceContactRegistered({
+  const {registered} = await builderRpcClient.isAudienceContactRegistered({
     projectId,
     audienceId,
-    walletAddress,
+    walletAddress
   });
   return registered;
 };
