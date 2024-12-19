@@ -25,7 +25,7 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <div className="homepage">
       <h1>Sequence Allowlist Starter</h1>
       <h2 className="homepage__marginBtNormal">
         Create an exclusive list with Audience Endpoints
