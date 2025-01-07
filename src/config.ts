@@ -10,7 +10,21 @@ const appleRedirectURI = window.location.origin + window.location.pathname;
 const walletConnectId = import.meta.env.VITE_WALLET_CONNECT_ID;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const config: any = createConfig("waas", {
+export const universalConfig: any = createConfig("universal", {
+  projectAccessKey: projectAccessKey,
+  chainIds: [chainId],
+  defaultChainId: chainId,
+  appName: "Kit Starter",
+  google: true,
+  apple: true,
+  walletConnect: {
+    projectId: walletConnectId,
+  },
+  metaMask: true,
+});
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const embeddedConfig: any = createConfig("waas", {
   projectAccessKey: projectAccessKey,
   chainIds: [chainId],
   defaultChainId: chainId,
@@ -23,5 +37,7 @@ export const config: any = createConfig("waas", {
   googleClientId: googleClientId,
   appleClientId: appleClientId,
   appleRedirectURI: appleRedirectURI,
-  walletConnectProjectId: walletConnectId,
+  wagmiConfig: {
+    multiInjectedProviderDiscovery: false,
+  },
 });
