@@ -40,4 +40,5 @@ export const embeddedConfig: any = createConfig("waas", {
   wagmiConfig: {
     multiInjectedProviderDiscovery: false,
   },
+  metaMask: false,
 });

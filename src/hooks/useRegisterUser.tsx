@@ -4,24 +4,27 @@ import {
   useIsAudienceContactRegistered,
   useRegisterAudienceContact,
 } from "./useAudience";
-import { useSignInEmail } from "@0xsequence/kit";
+import { ExtendedConnector, useSignInEmail } from "@0xsequence/kit";
 import { useToast } from "@0xsequence/design-system";
-import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useRegisterUser = () => {
   const { signMessageAsync } = useSignMessage();
-  const { address, chainId } = useAccount();
+  const { address, chainId, connector } = useAccount();
   const { mutateAsync: isAudienceContactRegistered } =
     useIsAudienceContactRegistered();
   const { mutateAsync: registerAudienceContact } = useRegisterAudienceContact();
   const email = useSignInEmail();
   const toast = useToast();
   const queryClient = useQueryClient();
+  const isSocialConnector =
+    (connector as ExtendedConnector)?._wallet?.type === "social" ||
+    connector?.id === "sequence";
 
   return useQuery({
-    queryKey: ["userRegistration", email, address],
+    queryKey: ["registerUser", address, email],
     queryFn: async () => {
-      if (!email || !address || !chainId) {
+      if (!address || !chainId || (!email && isSocialConnector)) {
         return { isRegistered: false };
       }
 
@@ -48,7 +51,7 @@ export const useRegisterUser = () => {
           await registerAudienceContact({
             contact: {
               address: address,
-              email: email,
+              email: email!,
               audienceId: AUDIENCE_ID,
             },
             walletProof: proof,
@@ -62,6 +65,7 @@ export const useRegisterUser = () => {
 
           queryClient.invalidateQueries({ queryKey: ["audienceStatus"] });
         }
+
         return { isRegistered: true };
       } catch (error) {
         console.error(error);
@@ -73,6 +77,6 @@ export const useRegisterUser = () => {
         return { isRegistered: false };
       }
     },
-    enabled: !!email && !!address,
+    enabled: Boolean(address) && (Boolean(email) || !isSocialConnector),
   });
 };
