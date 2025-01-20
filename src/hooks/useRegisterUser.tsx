@@ -53,6 +53,7 @@ export const useRegisterUser = () => {
               address: address,
               email: email!,
               audienceId: AUDIENCE_ID,
+              provider: connector?.id,
             },
             walletProof: proof,
           });
